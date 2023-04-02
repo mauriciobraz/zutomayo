@@ -1,4 +1,7 @@
-import { Dotenv } from '@/schemas/dotenv';
+import '@total-typescript/ts-reset';
+
+import type { DotenvType } from '../constants/dotenv';
+import type { Object } from 'ts-toolbelt';
 
 declare global {
   /** Utility type to add a logger to an object (e.g. an interaction) */
@@ -6,15 +9,10 @@ declare global {
     logger: Logger;
   };
 
-  /** Replace a key in an object with a new type. */
-  type Replace<T, K extends keyof T, V> = Omit<T, K> & {
-    [P in K]: V;
-  };
-
   namespace NodeJS {
     interface ProcessEnv
       extends NodeJS.ProcessEnv,
-        Replace<Dotenv, keyof Dotenv, string> {}
+        Object.Update<DotenvType, keyof DotenvType, string> {}
   }
 }
 
