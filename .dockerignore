@@ -1,0 +1,21 @@
+# dependencies
+/node_modules
+
+# production
+/build
+
+# typesafe-i18n files
+/source/locales/i18n-*.ts
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+.pnpm-debug.log*
+
+# typescript
+*.tsbuildinfo
+
+# .env
+.env.*
