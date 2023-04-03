@@ -1,5 +1,6 @@
-import { mergeTranslations } from '@/locales/helpers';
+import { BaseTranslation } from '../i18n-types';
 
-export default mergeTranslations('*', {
-  HI: 'Hi {name}! Please leave a star if you like this project: https://github.com/mauriciobraz/discord.ts-template :)',
-});
+export default {
+  SUCCESS_SETUP: 'Configuração concluída com sucesso!',
+  SUCCESS_UPDATE_TEMPLATE: 'Modelo de nome atualizado com sucesso!',
+} as BaseTranslation;

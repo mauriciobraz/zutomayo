@@ -16,16 +16,11 @@ import { baseLocale, loadedLocales } from '../locales/i18n-util';
 
 import type { Locales, TranslationFunctions } from '../locales/i18n-types';
 import type { Interaction, LocaleString, LocalizationMap } from 'discord.js';
+import type { O, S } from 'ts-toolbelt';
 import type { LocalizedString } from 'typesafe-i18n';
 
-/** @internal Replace all types from the given object deeply. */
-type DeepReplace<Obj, Type> = {
-  [K in keyof Obj]: Obj[K][keyof Obj[K]] extends Type
-    ? Type
-    : Obj[K][keyof Obj[K]] extends object
-    ? DeepReplace<Obj[K], Type>
-    : Obj[K];
-};
+const SLASH_NS = 'SLASH';
+const KEY_PATH_SEPARATOR = '.';
 
 /** @internal Return a union of all possible paths from the given object into as a array of keys. */
 type ObjectPath<T> = T extends object
@@ -34,46 +29,15 @@ type ObjectPath<T> = T extends object
     }[keyof T]
   : [];
 
-/** @author https://github.com/sindresorhus/type-fest */
-type Join<
-  Strings extends (string | number)[],
-  Delimiter extends string
-> = Strings extends []
-  ? ''
-  : Strings extends [string | number]
-  ? `${Strings[0]}`
-  : Strings extends [string | number, ...infer Rest]
-  ? /** @ts-expect-error */
-    `${Strings[0]}${Delimiter}${Join<Rest, Delimiter>}`
-  : string;
-
-const SLASH_NS = 'SLASH';
-const KEY_PATH_SEPARATOR = '.';
-
-/** A union type of all possible values for the `SLASH` namespace. */
-export type ResolvableLocalizationPath = Join<
-  ObjectPath<DeepReplace<TranslationFunctions[typeof SLASH_NS], string>>,
+/** @internal A union type of all possible values for the `SLASH` namespace. */
+type ResolvableLocalizationPath = S.Join<
+  ObjectPath<O.Replace<TranslationFunctions[typeof SLASH_NS], any, string>>,
   typeof KEY_PATH_SEPARATOR
 >;
 
-let defaultLocale: Locales = baseLocale;
-
-/** Gets the current default locale. */
-export function getDefaultLocale(): Locales {
-  return defaultLocale;
-}
-
-/** Sets the default locale. */
-export function setDefaultLocale(locale: Locales): void {
-  defaultLocale = locale;
-}
-
-/** @internal Common nullish types. */
-type Nullish<T> = T | null | undefined | false | 0 | '';
-
 /** @internal Helper function to check if a value is nullish. */
-function isNullish<T>(value: Nullish<T>): boolean {
-  return value === undefined || value === null || value === '' || !value;
+function isNullish<T>(value?: T | null): boolean {
+  return value === undefined ?? value === null ?? value === '' ?? !value;
 }
 
 /**
@@ -83,11 +47,11 @@ function isNullish<T>(value: Nullish<T>): boolean {
  */
 function resolveLocalizationPath(
   path: ResolvableLocalizationPath,
-  locale = defaultLocale
+  locale = baseLocale
 ): LocalizedString {
   const localizedStringParts: unknown = path
     .split(KEY_PATH_SEPARATOR)
-    /** @ts-expect-error */
+    // @ts-expect-error This is a valid use of `reduce`.
     .reduce((prev, curr) => prev[curr], L[locale][SLASH_NS]);
 
   if (typeof localizedStringParts === 'undefined') {
@@ -146,7 +110,12 @@ export function getPreferredLocale(interaction: Interaction) {
     return interaction.guildLocale as unknown as Locales;
   }
 
-  return defaultLocale as Locales;
+  return baseLocale as Locales;
+}
+
+/** Gets the translations object for a given interaction. */
+export function getLanguage(interaction: Interaction) {
+  return L[getPreferredLocale(interaction)];
 }
 
 /** @internal Typing for `resolveSharedNameAndDescription`'s returns. */
@@ -201,7 +170,7 @@ export function Command(options?: BaseOptions): MethodDecoratorEx {
     const { nameLocalizations, descriptionLocalizations, description } =
       resolveSharedNameAndDescription(options.name, options.description);
 
-    if (!name || !description) {
+    if (!name ?? !description) {
       throw new TypeError(
         `Slash command name and description must be a non-empty string. ` +
           `(Received path "${options.name}: ${name}" and "${options.description}: ${description}" respectively)`
@@ -228,7 +197,7 @@ export function Option(
   options: Partial<BaseOptions> & SlashOptionOptionsWithoutNamingFields
 ): ParameterDecoratorEx {
   return (target, key, descriptor) => {
-    if (!options.name || !options.description) {
+    if (!options.name ?? !options.description) {
       const { name, description } = getDefaultNameAndDescription(
         target,
         key,
@@ -236,8 +205,8 @@ export function Option(
       );
 
       options = Object.assign(options, {
-        name: options.name || name,
-        description: options.description || description,
+        name: options.name ?? name,
+        description: options.description ?? description,
       });
     }
 
@@ -251,7 +220,7 @@ export function Option(
         options.description as ResolvableLocalizationPath
       );
 
-    if (!name || !description) {
+    if (!name ?? !description) {
       throw new TypeError(
         `Slash command name and description must be a non-empty string. ` +
           `(Received path "${options.name}: ${name}" and "${options.description}: ${description}" respectively)`
@@ -259,7 +228,7 @@ export function Option(
     }
 
     SlashOption({
-      ...(options as SlashOptionOptions<string, string>),
+      ...(options as unknown as SlashOptionOptions<string, string>),
       name,
       description,
       nameLocalizations,
@@ -279,10 +248,17 @@ export type SlashCommandGroupOptions = {
 
 /** Creates a group of slash commands with localization. */
 export function Group(
-  options: Partial<BaseOptions> & SlashCommandGroupOptions
+  options?: Partial<BaseOptions> & SlashCommandGroupOptions
 ): ClassDecoratorEx {
   return (target, key, descriptor) => {
-    if (!options.name || !options.description) {
+    if (!options) {
+      options = {
+        ...getDefaultNameAndDescription(target),
+        assignMethods: true,
+      };
+    }
+
+    if (!options.name ?? !options.description) {
       const TargetClass = target as new (...args: any[]) => any;
 
       const { name, description } = getDefaultNameAndDescription(
@@ -290,8 +266,8 @@ export function Group(
       );
 
       options = Object.assign(options, {
-        name: options.name || name,
-        description: options.description || description,
+        name: options.name ?? name,
+        description: options.description ?? description,
       });
     }
 
@@ -305,7 +281,7 @@ export function Group(
         options.description as ResolvableLocalizationPath
       );
 
-    if (!name || !description) {
+    if (!name ?? !description) {
       throw new TypeError(
         `Slash command name and description must be a non-empty string. ` +
           `(Received path "${options.name}: ${name}" and "${options.description}: ${description}" respectively)`
@@ -323,7 +299,7 @@ export function Group(
       })(target, key, descriptor);
     }
 
-    if (options?.assignMethods) {
+    if (options.assignMethods) {
       SlashGroup(name)(target, key, descriptor);
     }
   };

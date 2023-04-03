@@ -4,6 +4,8 @@ import 'reflect-metadata';
 import { readdir } from 'fs/promises';
 import { resolve } from 'path';
 
+import { PrismaClient } from '@prisma/client';
+import { IntentsBitField } from 'discord.js';
 import { Client, DIService, typeDiDependencyRegistryEngine } from 'discordx';
 import { Logger } from 'tslog';
 import Container, { Service } from 'typedi';
@@ -17,8 +19,12 @@ async function main() {
     minLevel: LOG_LEVEL,
   });
 
-  Container.set(Logger, logger);
+  const prisma = new PrismaClient();
 
+  Container.set(Logger, logger);
+  Container.set(PrismaClient, prisma);
+
+  await prisma.$connect();
   await startDiscordClient();
 }
 
@@ -28,7 +34,11 @@ const MODULES_PATH = resolve(__dirname, 'modules');
 async function startDiscordClient() {
   const client = new Client({
     botGuilds: NODE_ENV === 'DEVELOPMENT' ? [getAllGuildsId] : undefined,
-    intents: [],
+    intents: [
+      IntentsBitField.Flags.Guilds,
+      IntentsBitField.Flags.GuildMembers,
+      IntentsBitField.Flags.GuildVoiceStates,
+    ],
   });
 
   await loadModules(MODULES_PATH);

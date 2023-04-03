@@ -7,13 +7,15 @@ import type { LocaleTranslationFunctions, TranslateByString } from 'typesafe-i18
 import { detectLocale as detectLocaleFn } from 'typesafe-i18n/detectors'
 import type { Formatters, Locales, Namespaces, Translations, TranslationFunctions } from './i18n-types'
 
-export const baseLocale: Locales = 'en-US'
+export const baseLocale: Locales = 'pt-BR'
 
 export const locales: Locales[] = [
-	'en-US'
+	'en-US',
+	'pt-BR'
 ]
 
 export const namespaces: Namespaces[] = [
+	'ERRORS',
 	'SLASH'
 ]
 

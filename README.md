@@ -29,6 +29,7 @@ cp .env.example .env
 | `NODE_ENV`           | No       |
 | `LOG_LEVEL`          | No       |
 | `DISCORD_TOKEN`      | Yes      |
+| `DATABASE_URL`       | Yes      |
 
 </details>
 

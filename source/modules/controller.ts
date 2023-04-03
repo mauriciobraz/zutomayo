@@ -1,19 +1,31 @@
+import { PrismaClient } from '@prisma/client';
 import { Discord, On } from 'discordx';
 import { Logger } from 'tslog';
 
-import type { Interaction } from 'discord.js';
+import CustomVoice from './custom-voice';
+
 import type { ArgsOf, Client } from 'discordx';
 
 @Discord()
 class Controller {
-  constructor(private readonly logger: Logger<unknown>) {}
+  constructor(
+    private readonly logger: Logger<unknown>,
+    private readonly prisma: PrismaClient
+  ) {}
 
   @On({ event: 'ready' })
   async onReady(_: ArgsOf<'ready'>, client: Client) {
     await client.initApplicationCommands();
 
+    // This isn't inside CustomVoice's constructor because it's async and
+    // it's only mounted when some command/event is executed.
+    await CustomVoice.preloadFromPrismaAsync(
+      this.prisma,
+      this.logger.getSubLogger({ name: 'CustomVoice' })
+    );
+
     this.logger.info(
-      'Successfully initialized application commands and started listening for events.'
+      'Zutomayo is now running. Press CTRL + C to stop the process.'
     );
   }
 
@@ -22,12 +34,17 @@ class Controller {
     [interaction]: ArgsOf<'interactionCreate'>,
     client: Client
   ) {
-    (interaction as Loggable<Interaction>).logger = this.logger.getSubLogger({
+    interaction.logger = this.logger.getSubLogger({
       name: 'InteractionCreate',
       prefix: [interaction.id, interaction.user.id, interaction.guild?.id],
     });
 
     await client.executeInteraction(interaction);
+  }
+
+  @On({ event: 'error' })
+  async onError([error]: ArgsOf<'error'>, client: Client) {
+    this.logger.error(error);
   }
 }
 

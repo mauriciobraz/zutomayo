@@ -6,13 +6,23 @@ import type { Locales, Translations } from './i18n-types'
 import { loadedFormatters, loadedLocales, locales } from './i18n-util'
 
 import en_US from './en-US'
+import pt_BR from './pt-BR'
 
+import en_US_ERRORS from './en-US/ERRORS'
 import en_US_SLASH from './en-US/SLASH'
+import pt_BR_ERRORS from './pt-BR/ERRORS'
+import pt_BR_SLASH from './pt-BR/SLASH'
 
 const localeTranslations = {
 	'en-US': {
 		...en_US,
+		ERRORS: en_US_ERRORS,
 		SLASH: en_US_SLASH
+	},
+	'pt-BR': {
+		...pt_BR,
+		ERRORS: pt_BR_ERRORS,
+		SLASH: pt_BR_SLASH
 	},
 }
 

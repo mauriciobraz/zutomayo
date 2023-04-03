@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Guild.id should be unique and the exact same as the guild's ID on Discord.
+model Guild {
+  id String @id @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  CustomVoice CustomVoice[]
+}
+
+model CustomVoice {
+  id String @id @unique @default(cuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Guild   Guild  @relation(fields: [guildId], references: [id])
+  guildId String
+
+  categoryID String @unique
+  parentID   String @unique
+
+  template String?
+}

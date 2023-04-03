@@ -7,11 +7,17 @@ import { loadedFormatters, loadedLocales, locales } from './i18n-util'
 
 const localeTranslationLoaders = {
 	'en-US': () => import('./en-US'),
+	'pt-BR': () => import('./pt-BR'),
 }
 
 const localeNamespaceLoaders = {
 	'en-US': {
+		ERRORS: () => import('./en-US/ERRORS'),
 		SLASH: () => import('./en-US/SLASH')
+	},
+	'pt-BR': {
+		ERRORS: () => import('./pt-BR/ERRORS'),
+		SLASH: () => import('./pt-BR/SLASH')
 	}
 }
 
