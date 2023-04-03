@@ -2,6 +2,7 @@
 
 ![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)
 ![Github CI](https://github.com/mauriciobraz/zutomayo/actions/workflows/lint.yml/badge.svg)
+![Github CI](https://github.com/mauriciobraz/zutomayo/actions/workflows/test.yml/badge.svg)
 
 ## Getting Started
 
