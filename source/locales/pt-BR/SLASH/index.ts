@@ -17,4 +17,8 @@ export default {
   CUSTOMVOICE_SETUP_OPTION_TEMPLATE_NAME: 'modelo-de-nome',
   CUSTOMVOICE_SETUP_OPTION_TEMPLATE_DESCRIPTION:
     'Variáveis disponíveis: {USER} (nome do usuário), {COUNT} (número de canais de voz existentes).',
+
+  CUSTOMVOICE_UPDATETEMPLATE_NAME: 'atualizar',
+  CUSTOMVOICE_UPDATETEMPLATE_DESCRIPTION:
+    'Atualiza o modelo de nome de um canal de voz privado.',
 } as BaseTranslation;
