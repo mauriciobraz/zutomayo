@@ -1,4 +1,5 @@
 import 'discord.js';
+import { Logger } from 'tslog';
 
 declare module 'discord.js' {
   /** Indicates that the interaction is cached. */

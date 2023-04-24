@@ -145,8 +145,8 @@ class CustomVoice {
   @Command()
   async setup(
     @Option({
-      name: 'CUSTOMVOICE_SETUP_OPTION_CHANNEL_NAME',
-      description: 'CUSTOMVOICE_SETUP_OPTION_CHANNEL_DESCRIPTION',
+      name: 'CUSTOMVOICE_OPTION_CHANNEL_NAME',
+      description: 'CUSTOMVOICE_OPTION_CHANNEL_DESCRIPTION',
       type: ApplicationCommandOptionType.Channel,
       channelTypes: [ChannelType.GuildVoice],
       required: true,
@@ -245,8 +245,8 @@ class CustomVoice {
     template: string,
 
     @Option({
-      name: 'CUSTOMVOICE_SETUP_OPTION_CHANNEL_NAME',
-      description: 'CUSTOMVOICE_SETUP_OPTION_CHANNEL_DESCRIPTION',
+      name: 'CUSTOMVOICE_OPTION_CHANNEL_NAME',
+      description: 'CUSTOMVOICE_OPTION_CHANNEL_DESCRIPTION',
       type: ApplicationCommandOptionType.Channel,
       channelTypes: [ChannelType.GuildVoice],
       required: true,
@@ -326,6 +326,60 @@ class CustomVoice {
 
     await interaction.reply({
       content: LL.SUCCESS_UPDATE_TEMPLATE(),
+      ephemeral: true,
+    });
+  }
+
+  @Guard(
+    GuildGuards.InGuild(),
+    GuildGuards.HasPermissions({
+      checkPermissionsFor: 'User',
+      permissions: ['Administrator'],
+    })
+  )
+  @Command()
+  async delete(
+    @Option({
+      name: 'CUSTOMVOICE_OPTION_CHANNEL_NAME',
+      description: 'CUSTOMVOICE_OPTION_CHANNEL_DESCRIPTION',
+      type: ApplicationCommandOptionType.Channel,
+      channelTypes: [ChannelType.GuildVoice],
+      required: true,
+    })
+    channel: VoiceChannel,
+
+    interaction: ChatInputCommandInteraction<CachedType>
+  ) {
+    interaction.logger.debug(
+      `Received delete command from ${interaction.user.tag} in guild ${interaction.guildId}.`
+    );
+
+    const LL = getLanguage(interaction);
+
+    const customVoiceExists =
+      (await this.prisma.customVoice.count({
+        where: { parentID: channel.id },
+      })) > 0;
+
+    if (!customVoiceExists) {
+      await interaction.reply({
+        content: LL.ERRORS.PARENT_NOT_FOUND(),
+        ephemeral: true,
+      });
+
+      return;
+    }
+
+    await this.prisma.customVoice.delete({
+      where: {
+        parentID: channel.id,
+      },
+    });
+
+    CustomVoice.parents.delete(channel.id);
+
+    await interaction.reply({
+      content: LL.SUCCESS_DELETE(),
       ephemeral: true,
     });
   }

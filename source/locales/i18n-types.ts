@@ -23,9 +23,25 @@ type RootTranslation = {
 	 */
 	SUCCESS_SETUP: string
 	/**
+	 * C​a​n​a​l​ ​d​e​ ​v​o​z​ ​p​r​i​v​a​d​o​ ​e​x​c​l​u​í​d​o​ ​c​o​m​ ​s​u​c​e​s​s​o​!
+	 */
+	SUCCESS_DELETE: string
+	/**
 	 * M​o​d​e​l​o​ ​d​e​ ​n​o​m​e​ ​a​t​u​a​l​i​z​a​d​o​ ​c​o​m​ ​s​u​c​e​s​s​o​!
 	 */
 	SUCCESS_UPDATE_TEMPLATE: string
+	/**
+	 * V​o​c​ê​ ​t​e​m​ ​c​e​r​t​e​z​a​?
+	 */
+	INQUIRER_CONFIRMATION_QUESTION: string
+	/**
+	 * S​i​m
+	 */
+	INQUIRER_CONFIRMATION_YES: string
+	/**
+	 * N​ã​o
+	 */
+	INQUIRER_CONFIRMATION_NO: string
 }
 
 export type NamespaceERRORSTranslation = {
@@ -61,6 +77,14 @@ export type NamespaceSLASHTranslation = {
 	 */
 	CUSTOMVOICE_DESCRIPTION: string
 	/**
+	 * c​a​n​a​l
+	 */
+	CUSTOMVOICE_OPTION_CHANNEL_NAME: string
+	/**
+	 * C​a​n​a​l​ ​d​e​ ​v​o​z​ ​p​a​r​a​ ​c​o​n​f​i​g​u​r​a​r​.
+	 */
+	CUSTOMVOICE_OPTION_CHANNEL_DESCRIPTION: string
+	/**
 	 * c​o​n​f​i​g​u​r​a​r
 	 */
 	CUSTOMVOICE_SETUP_NAME: string
@@ -68,14 +92,6 @@ export type NamespaceSLASHTranslation = {
 	 * C​o​n​f​i​g​u​r​a​ ​u​m​ ​c​a​n​a​l​ ​d​e​ ​v​o​z​ ​p​r​i​v​a​d​o​.
 	 */
 	CUSTOMVOICE_SETUP_DESCRIPTION: string
-	/**
-	 * c​a​n​a​l
-	 */
-	CUSTOMVOICE_SETUP_OPTION_CHANNEL_NAME: string
-	/**
-	 * C​a​n​a​l​ ​d​e​ ​v​o​z​ ​p​a​r​a​ ​c​o​n​f​i​g​u​r​a​r​.
-	 */
-	CUSTOMVOICE_SETUP_OPTION_CHANNEL_DESCRIPTION: string
 	/**
 	 * c​a​t​e​g​o​r​i​a
 	 */
@@ -85,7 +101,7 @@ export type NamespaceSLASHTranslation = {
 	 */
 	CUSTOMVOICE_SETUP_OPTION_CATEGORY_DESCRIPTION: string
 	/**
-	 * m​o​d​e​l​o​-​d​e​-​n​o​m​e
+	 * m​o​d​e​l​o
 	 */
 	CUSTOMVOICE_SETUP_OPTION_TEMPLATE_NAME: string
 	/**
@@ -94,6 +110,14 @@ export type NamespaceSLASHTranslation = {
 	 * @param {unknown} USER
 	 */
 	CUSTOMVOICE_SETUP_OPTION_TEMPLATE_DESCRIPTION: RequiredParams<'COUNT' | 'USER'>
+	/**
+	 * a​t​u​a​l​i​z​a​r​-​n​o​m​e
+	 */
+	CUSTOMVOICE_UPDATETEMPLATE_NAME: string
+	/**
+	 * A​t​u​a​l​i​z​a​ ​o​ ​m​o​d​e​l​o​ ​d​e​ ​n​o​m​e​ ​d​e​ ​u​m​ ​c​a​n​a​l​ ​d​e​ ​v​o​z​ ​p​r​i​v​a​d​o​.
+	 */
+	CUSTOMVOICE_UPDATETEMPLATE_DESCRIPTION: string
 }
 
 export type Namespaces =
@@ -120,9 +144,25 @@ export type TranslationFunctions = {
 	 */
 	SUCCESS_SETUP: () => LocalizedString
 	/**
+	 * Canal de voz privado excluído com sucesso!
+	 */
+	SUCCESS_DELETE: () => LocalizedString
+	/**
 	 * Modelo de nome atualizado com sucesso!
 	 */
 	SUCCESS_UPDATE_TEMPLATE: () => LocalizedString
+	/**
+	 * Você tem certeza?
+	 */
+	INQUIRER_CONFIRMATION_QUESTION: () => LocalizedString
+	/**
+	 * Sim
+	 */
+	INQUIRER_CONFIRMATION_YES: () => LocalizedString
+	/**
+	 * Não
+	 */
+	INQUIRER_CONFIRMATION_NO: () => LocalizedString
 	ERRORS: {
 		/**
 		 * Este comando só pode ser usado em servidores.
@@ -155,6 +195,14 @@ export type TranslationFunctions = {
 		 */
 		CUSTOMVOICE_DESCRIPTION: () => LocalizedString
 		/**
+		 * canal
+		 */
+		CUSTOMVOICE_OPTION_CHANNEL_NAME: () => LocalizedString
+		/**
+		 * Canal de voz para configurar.
+		 */
+		CUSTOMVOICE_OPTION_CHANNEL_DESCRIPTION: () => LocalizedString
+		/**
 		 * configurar
 		 */
 		CUSTOMVOICE_SETUP_NAME: () => LocalizedString
@@ -162,14 +210,6 @@ export type TranslationFunctions = {
 		 * Configura um canal de voz privado.
 		 */
 		CUSTOMVOICE_SETUP_DESCRIPTION: () => LocalizedString
-		/**
-		 * canal
-		 */
-		CUSTOMVOICE_SETUP_OPTION_CHANNEL_NAME: () => LocalizedString
-		/**
-		 * Canal de voz para configurar.
-		 */
-		CUSTOMVOICE_SETUP_OPTION_CHANNEL_DESCRIPTION: () => LocalizedString
 		/**
 		 * categoria
 		 */
@@ -179,13 +219,21 @@ export type TranslationFunctions = {
 		 */
 		CUSTOMVOICE_SETUP_OPTION_CATEGORY_DESCRIPTION: () => LocalizedString
 		/**
-		 * modelo-de-nome
+		 * modelo
 		 */
 		CUSTOMVOICE_SETUP_OPTION_TEMPLATE_NAME: () => LocalizedString
 		/**
 		 * Variáveis disponíveis: {USER} (nome do usuário), {COUNT} (número de canais de voz existentes).
 		 */
 		CUSTOMVOICE_SETUP_OPTION_TEMPLATE_DESCRIPTION: (arg: { COUNT: unknown, USER: unknown }) => LocalizedString
+		/**
+		 * atualizar-nome
+		 */
+		CUSTOMVOICE_UPDATETEMPLATE_NAME: () => LocalizedString
+		/**
+		 * Atualiza o modelo de nome de um canal de voz privado.
+		 */
+		CUSTOMVOICE_UPDATETEMPLATE_DESCRIPTION: () => LocalizedString
 	}
 }
 
