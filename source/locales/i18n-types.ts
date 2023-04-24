@@ -30,18 +30,6 @@ type RootTranslation = {
 	 * M​o​d​e​l​o​ ​d​e​ ​n​o​m​e​ ​a​t​u​a​l​i​z​a​d​o​ ​c​o​m​ ​s​u​c​e​s​s​o​!
 	 */
 	SUCCESS_UPDATE_TEMPLATE: string
-	/**
-	 * V​o​c​ê​ ​t​e​m​ ​c​e​r​t​e​z​a​?
-	 */
-	INQUIRER_CONFIRMATION_QUESTION: string
-	/**
-	 * S​i​m
-	 */
-	INQUIRER_CONFIRMATION_YES: string
-	/**
-	 * N​ã​o
-	 */
-	INQUIRER_CONFIRMATION_NO: string
 }
 
 export type NamespaceERRORSTranslation = {
@@ -118,6 +106,14 @@ export type NamespaceSLASHTranslation = {
 	 * A​t​u​a​l​i​z​a​ ​o​ ​m​o​d​e​l​o​ ​d​e​ ​n​o​m​e​ ​d​e​ ​u​m​ ​c​a​n​a​l​ ​d​e​ ​v​o​z​ ​p​r​i​v​a​d​o​.
 	 */
 	CUSTOMVOICE_UPDATETEMPLATE_DESCRIPTION: string
+	/**
+	 * d​e​l​e​t​a​r
+	 */
+	CUSTOMVOICE_DELETE_NAME: string
+	/**
+	 * D​e​l​e​t​a​ ​u​m​ ​c​a​n​a​l​ ​d​e​ ​v​o​z​ ​p​r​i​v​a​d​o​.
+	 */
+	CUSTOMVOICE_DELETE_DESCRIPTION: string
 }
 
 export type Namespaces =
@@ -151,18 +147,6 @@ export type TranslationFunctions = {
 	 * Modelo de nome atualizado com sucesso!
 	 */
 	SUCCESS_UPDATE_TEMPLATE: () => LocalizedString
-	/**
-	 * Você tem certeza?
-	 */
-	INQUIRER_CONFIRMATION_QUESTION: () => LocalizedString
-	/**
-	 * Sim
-	 */
-	INQUIRER_CONFIRMATION_YES: () => LocalizedString
-	/**
-	 * Não
-	 */
-	INQUIRER_CONFIRMATION_NO: () => LocalizedString
 	ERRORS: {
 		/**
 		 * Este comando só pode ser usado em servidores.
@@ -234,6 +218,14 @@ export type TranslationFunctions = {
 		 * Atualiza o modelo de nome de um canal de voz privado.
 		 */
 		CUSTOMVOICE_UPDATETEMPLATE_DESCRIPTION: () => LocalizedString
+		/**
+		 * deletar
+		 */
+		CUSTOMVOICE_DELETE_NAME: () => LocalizedString
+		/**
+		 * Deleta um canal de voz privado.
+		 */
+		CUSTOMVOICE_DELETE_DESCRIPTION: () => LocalizedString
 	}
 }
 

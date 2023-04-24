@@ -15,7 +15,7 @@ import { DISCORD_TOKEN, LOG_LEVEL, NODE_ENV } from './constants/dotenv';
 async function main() {
   const logger = new Logger({
     name: 'Main',
-    prettyLogTemplate: '{{dateIsoStr}} {{logLevelName}}',
+    prettyLogTemplate: '{{dateIsoStr}} {{logLevelName}} ',
     minLevel: LOG_LEVEL,
   });
 

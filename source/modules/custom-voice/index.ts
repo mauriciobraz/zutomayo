@@ -158,6 +158,7 @@ class CustomVoice {
       description: 'CUSTOMVOICE_SETUP_OPTION_CATEGORY_DESCRIPTION',
       type: ApplicationCommandOptionType.Channel,
       channelTypes: [ChannelType.GuildCategory],
+      required: true,
     })
     category: CategoryChannel,
 

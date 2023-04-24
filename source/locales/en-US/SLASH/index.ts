@@ -21,4 +21,7 @@ export default mergeTranslations('SLASH', {
   CUSTOMVOICE_UPDATETEMPLATE_NAME: 'update-name',
   CUSTOMVOICE_UPDATETEMPLATE_DESCRIPTION:
     'Update the name template of a private voice channel.',
+
+  CUSTOMVOICE_DELETE_NAME: 'delete',
+  CUSTOMVOICE_DELETE_DESCRIPTION: 'Delete a private voice channel.',
 });

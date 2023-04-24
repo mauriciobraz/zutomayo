@@ -21,4 +21,7 @@ export default {
   CUSTOMVOICE_UPDATETEMPLATE_NAME: 'atualizar-nome',
   CUSTOMVOICE_UPDATETEMPLATE_DESCRIPTION:
     'Atualiza o modelo de nome de um canal de voz privado.',
+
+  CUSTOMVOICE_DELETE_NAME: 'deletar',
+  CUSTOMVOICE_DELETE_DESCRIPTION: 'Deleta um canal de voz privado.',
 } as BaseTranslation;
